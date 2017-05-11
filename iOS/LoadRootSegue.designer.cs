@@ -7,11 +7,12 @@
 using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using UIKit;
 
 namespace OnDuty.iOS
 {
-    [Register ("ViewController")]
-    partial class ViewController
+    [Register ("LoadRootSegue")]
+    partial class LoadRootSegue
     {
     }
 }
