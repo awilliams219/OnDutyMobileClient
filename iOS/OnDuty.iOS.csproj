@@ -114,12 +114,29 @@
     <Compile Include="SpalshScreenViewController.designer.cs">
       <DependentUpon>SpalshScreenViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="AppMainController.cs" />
+    <Compile Include="AppMainController.designer.cs">
+      <DependentUpon>AppMainController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsScene.cs" />
+    <Compile Include="SettingsScene.designer.cs">
+      <DependentUpon>SettingsScene.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiAddressField.cs" />
+    <Compile Include="ApiAddressField.designer.cs">
+      <DependentUpon>ApiAddressField.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\Designs\Assets\SplashScreen.png">
       <Link>Resources\SplashScreen.png</Link>
     </BundleResource>
   </ItemGroup>
-  <Import Project="..\OnDuty\OnDuty.projitems" Label="Shared" Condition="Exists('..\OnDuty\OnDuty.projitems')" />
+  <ItemGroup>
+    <ProjectReference Include="..\OnDuty.Core\OnDuty.Core.csproj">
+      <Project>{5DAE542E-5979-4AB1-9CD2-BF11427E1DFE}</Project>
+      <Name>OnDuty.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
