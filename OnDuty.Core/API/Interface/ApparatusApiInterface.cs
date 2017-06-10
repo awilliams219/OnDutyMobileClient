@@ -11,7 +11,7 @@ namespace OnDuty.Core.API.Interface
 {
     public interface ApparatusApiInterface
     {
-        Task<HttpResult> UpdateStatus(ApparatusStatus newStatus);
-        ApparatusStatus GetStatus(int id);
+        Task<HttpResult> UpdateStatus(int id, ApparatusStatus newStatus);
+        Task<ApparatusStatus> GetStatus(int id);
     }
 }
