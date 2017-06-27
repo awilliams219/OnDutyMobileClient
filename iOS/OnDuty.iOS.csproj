@@ -94,6 +94,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="UIFactory\" />
+    <Folder Include="WTF\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -102,6 +104,7 @@
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
+    <None Include="WTF\UIVehiclesList.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -118,18 +121,97 @@
     <Compile Include="AppMainController.designer.cs">
       <DependentUpon>AppMainController.cs</DependentUpon>
     </Compile>
-    <Compile Include="SettingsScene.cs" />
-    <Compile Include="SettingsScene.designer.cs">
-      <DependentUpon>SettingsScene.cs</DependentUpon>
-    </Compile>
     <Compile Include="ApiAddressField.cs" />
     <Compile Include="ApiAddressField.designer.cs">
       <DependentUpon>ApiAddressField.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIFactory\UiElementFactoryHelper.cs" />
+    <Compile Include="WTF\SettingsScene.cs" />
+    <Compile Include="WTF\SettingsScene.designer.cs">
+      <DependentUpon>SettingsScene.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WTF\UiReportsController.cs" />
+    <Compile Include="WTF\UiReportsController.designer.cs">
+      <DependentUpon>UiReportsController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WTF\UiVehiclesController.cs" />
+    <Compile Include="WTF\UiVehiclesController.designer.cs">
+      <DependentUpon>UiVehiclesController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VehiclesListController.cs" />
+    <Compile Include="VehiclesListController.designer.cs">
+      <DependentUpon>VehiclesListController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WTF\UIVehiclesList.designer.cs">
+      <DependentUpon>UIVehiclesList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WTF\VehiclesScene.cs" />
+    <Compile Include="WTF\VehiclesScene.designer.cs">
+      <DependentUpon>VehiclesScene.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VehiclesListTableSource.cs" />
+    <Compile Include="UiVehiclesLoader.cs" />
+    <Compile Include="UiVehiclesLoader.designer.cs">
+      <DependentUpon>UiVehiclesLoader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoadingOverlay.cs" />
+    <Compile Include="VehicleDetailController.cs" />
+    <Compile Include="VehicleDetailController.designer.cs">
+      <DependentUpon>VehicleDetailController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VehicleDutyStatusControl.cs" />
+    <Compile Include="VehicleDutyStatusControl.designer.cs">
+      <DependentUpon>VehicleDutyStatusControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTravelLabel.cs" />
+    <Compile Include="TimeTravelLabel.designer.cs">
+      <DependentUpon>TimeTravelLabel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTravelSlider.cs" />
+    <Compile Include="TimeTravelSlider.designer.cs">
+      <DependentUpon>TimeTravelSlider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VehicleDetailPickerModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\Designs\Assets\SplashScreen.png">
       <Link>Resources\SplashScreen.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Designs\Assets\Final Graphics\ic_local_taxi_black_24dp\ios\ic_local_taxi.imageset\ic_local_taxi.png">
+      <Link>Resources\ic_local_taxi.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Designs\Assets\Final Graphics\ic_local_taxi_black_24dp\ios\ic_local_taxi.imageset\ic_local_taxi%402x.png">
+      <Link>Resources\ic_local_taxi%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Designs\Assets\Final Graphics\ic_local_taxi_black_24dp\ios\ic_local_taxi.imageset\ic_local_taxi%403x.png">
+      <Link>Resources\ic_local_taxi%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Designs\Assets\Final Graphics\ic_people_black_24dp\ios\ic_people.imageset\ic_people.png">
+      <Link>Resources\ic_people.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Designs\Assets\Final Graphics\ic_people_black_24dp\ios\ic_people.imageset\ic_people%402x.png">
+      <Link>Resources\ic_people%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Designs\Assets\Final Graphics\ic_people_black_24dp\ios\ic_people.imageset\ic_people%403x.png">
+      <Link>Resources\ic_people%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Designs\Assets\Final Graphics\ic_book_black_24dp\ios\ic_book.imageset\ic_book.png">
+      <Link>Resources\ic_book.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Designs\Assets\Final Graphics\ic_book_black_24dp\ios\ic_book.imageset\ic_book%402x.png">
+      <Link>Resources\ic_book%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Designs\Assets\Final Graphics\ic_book_black_24dp\ios\ic_book.imageset\ic_book%403x.png">
+      <Link>Resources\ic_book%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Designs\Assets\Final Graphics\ic_settings_black_24dp\ios\ic_settings.imageset\ic_settings.png">
+      <Link>Resources\ic_settings.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Designs\Assets\Final Graphics\ic_settings_black_24dp\ios\ic_settings.imageset\ic_settings%402x.png">
+      <Link>Resources\ic_settings%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Designs\Assets\Final Graphics\ic_settings_black_24dp\ios\ic_settings.imageset\ic_settings%403x.png">
+      <Link>Resources\ic_settings%403x.png</Link>
     </BundleResource>
   </ItemGroup>
   <ItemGroup>

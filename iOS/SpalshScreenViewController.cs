@@ -15,7 +15,7 @@ namespace OnDuty.iOS
 
         public override void ViewDidAppear(bool animated) {
             base.ViewDidAppear(animated);
-            Thread.Sleep(3000);               
+            //Thread.Sleep(3000);               
             SegueToMenu();
         }
         public void SegueToMenu() {

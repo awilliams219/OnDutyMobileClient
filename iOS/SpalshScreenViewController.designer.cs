@@ -14,30 +14,24 @@ namespace OnDuty.iOS
     [Register ("SpalshScreenViewController")]
     partial class SpalshScreenViewController
     {
-		[Outlet]
-		UIKit.UIButton Button { get; set; }
+        [Outlet]
+        UIKit.UIButton Button { get; set; }
 
-		[Outlet]
-		[GeneratedCode("iOS Designer", "1.0")]
-		UIKit.UIImageView SplashImage { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView SplashScreen { get; set; }
 
-		[Outlet]
-		[GeneratedCode("iOS Designer", "1.0")]
-		UIKit.UIView SplashScreen { get; set; }
+    void ReleaseDesignerOutlets ()
+        {
+            if (SplashScreen != null) {
+                SplashScreen.Dispose ();
+                SplashScreen = null;
+            }
 
-		void ReleaseDesignerOutlets()
-		{
-			if (SplashImage != null)
-			{
-				SplashImage.Dispose();
-				SplashImage = null;
-			}
-
-			if (SplashScreen != null)
-			{
-				SplashScreen.Dispose();
-				SplashScreen = null;
-			}
-		}
+            if (SplashScreen != null) {
+                SplashScreen.Dispose ();
+                SplashScreen = null;
+            }
+        }
     }
 }

@@ -36,11 +36,13 @@
     <Compile Include="API\ApiBase.cs" />
     <Compile Include="API\Interface\ApiInterface.cs" />
     <Compile Include="API\Interface\ApparatusApiInterface.cs" />
+    <Compile Include="Helper\ConversionHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="API\" />
     <Folder Include="Model\" />
     <Folder Include="API\Interface\" />
+    <Folder Include="Helper\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

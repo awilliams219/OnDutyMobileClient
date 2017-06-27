@@ -11,6 +11,8 @@ using Newtonsoft.Json.Linq;
 using OnDuty.Core.API.Interface;
 using OnDuty.Core.Model.Abstract;
 using ApparatusModel = OnDuty.Core.Model.Entity.Apparatus;
+using OnDuty.Core.Helper;
+using System.Globalization;
 
 namespace OnDuty.Core.API
 {
@@ -90,21 +92,7 @@ namespace OnDuty.Core.API
             status.Post = jStatus["post"].ToString();
             status.OnDutyTime = GetDateTimeFromJToken(jStatus["onDutyTime"]);
             status.OffDutyTime = GetDateTimeFromJToken(jStatus["offDutyTime"]);
-
-            switch (jStatus["dutyStatus"].ToString()) {
-                case "On Duty": 
-                    status.DutyStatus = DutyStatus.ON_DUTY;
-                    break;
-                case "Off Duty":
-                    status.DutyStatus = DutyStatus.OFF_DUTY;
-                    break;
-                case "Out of Service":
-                    status.DutyStatus = DutyStatus.OOS;
-                    break;
-                default:
-                    status.DutyStatus = DutyStatus.OOS;
-                    break;
-            }
+            status.DutyStatus = ConversionHelper.StringToDutyStatus(jStatus["dutyStatus"].ToString());
 
             return status;
         }
@@ -128,27 +116,32 @@ namespace OnDuty.Core.API
             var result = JObject.Parse(Json);
             var Payload = result.GetValue("payload");
 
+
             foreach (var entry in Payload) {
                 ApparatusModel apparatus = new ApparatusModel();
                 apparatus.Name = entry["name"].ToString();
                 apparatus.Type = entry["type"].ToString();
                 apparatus.Seats = entry["seats"].ToObject<int>();
                 apparatus.Vin = entry["vin"].ToString();
-                apparatus.Status = CreateNullStatusValue(entry["status"].ToString());
+                string JsonStatus = entry["status"].ToString();
+                apparatus.Status = GetStatusObject(JsonStatus);
                 ResultList.Add(apparatus);
             }
 
             return ResultList;
         }
 
-        private ApparatusStatus CreateNullStatusValue(string StatusString) {
+        private ApparatusStatus GetStatusObject(string JsonStatus) {
+            var StatusToken = JObject.Parse(JsonStatus);
+
             ApparatusStatus status = new ApparatusStatus();
-            status.PersonnelCount = 0;
-            status.DutyStatus = DutyStatus.OFF_DUTY;
-            status.MedicalLevel = "NONE";
-            status.OnDutyTime = new DateTime();
-            status.OffDutyTime = new DateTime();
-            status.Post = "Station";
+            status.PersonnelCount = StatusToken["personnelCount"].ToObject<int>();
+            status.DutyStatus = ConversionHelper.StringToDutyStatus(StatusToken["dutyStatus"].ToString());
+            status.MedicalLevel = StatusToken["medicalLevel"].ToString();
+			status.OnDutyTime = DateTime.Parse(StatusToken["onDutyTime"].ToString(), CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
+            status.OffDutyTime = DateTime.Parse(StatusToken["offDutyTime"].ToString(), CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
+            status.Post = StatusToken["post"].ToString();
+            status.OOSReason = StatusToken["oosReason"].ToString();
             return status;
         }
 

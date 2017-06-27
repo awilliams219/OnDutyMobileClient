@@ -16,9 +16,34 @@ namespace OnDuty.Core.Model.Abstract
         public DateTime OnDutyTime { get; set; }
         public string Post { get; set;}
         public DutyStatus DutyStatus { get; set; }
+        public string OOSReason { get; set; }
          
         public ApparatusStatus()
         {
+        }
+
+        public override string ToString() {
+            return ToString(true);
+        }
+
+        public string ToString(bool IncludePreamble) {
+            string preamble;
+
+            switch (DutyStatus) {
+                case DutyStatus.OFF_DUTY:
+                    return "Off Duty";
+                case DutyStatus.OOS:
+                    preamble = "Out of Service" + " - ";
+                    return (IncludePreamble ? preamble : "") + OOSReason;
+                default:
+                    string postSuffix = "";
+                    preamble = "On Duty ";
+                    if (Post != "") {
+                        postSuffix = " / " + Post;
+                    }
+                    return (IncludePreamble ? preamble : "") + "C" + PersonnelCount.ToString() + "0 " + MedicalLevel + " until " + OffDutyTime.ToString("HH:mm") + postSuffix;
+                
+            }
         }
     }
 }

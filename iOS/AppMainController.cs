@@ -12,5 +12,7 @@ namespace OnDuty.iOS
 		public AppMainController (IntPtr handle) : base (handle)
 		{
 		}
+
+       
 	}
 }
