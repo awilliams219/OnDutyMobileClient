@@ -21,8 +21,9 @@ namespace OnDuty.Core.Manager
 		public static void Init(ApparatusStatus InitialStatus) {
             PersonnelCount = InitialStatus.PersonnelCount;
             MedicalLevel = InitialStatus.MedicalLevel;
-            OnDutyTime = InitialStatus.OnDutyTime;
-            OffDutyTime = InitialStatus.OffDutyTime;
+            OnDutyTime = InitialStatus.OnDutyTime.ToUniversalTime();
+            OffDutyTime = InitialStatus.OffDutyTime.ToUniversalTime();
+            DutyStatus = InitialStatus.DutyStatus;
             Post = InitialStatus.Post;
 
 		    NeedsCommit = false;
@@ -38,6 +39,46 @@ namespace OnDuty.Core.Manager
             {
                 NewApparatusStatus.PersonnelCount = value;
                 NeedsCommit = true;
+            }
+        }
+
+        public static String TextStatus
+        {
+            get
+            {
+                switch(NewApparatusStatus.DutyStatus) {
+                    case DutyStatus.ON_DUTY:
+                        return "On Duty";
+                    case DutyStatus.OOS:
+                        return "Out of Service";
+                    default:
+						return "Off Duty";
+                }
+            }
+            set
+            {
+                switch (value) {
+                    case "On Duty" :
+                        NewApparatusStatus.DutyStatus = DutyStatus.ON_DUTY;
+                        break;
+                    case "OOS" :
+                        NewApparatusStatus.DutyStatus = DutyStatus.OOS;
+                        break;
+                    default:
+                        NewApparatusStatus.DutyStatus = DutyStatus.OFF_DUTY;
+                        break;
+                }
+
+                NeedsCommit = true;
+            }
+        }
+
+        public static DutyStatus DutyStatus {
+            get {
+                return NewApparatusStatus.DutyStatus;
+            }
+            set {
+                NewApparatusStatus.DutyStatus = value;
             }
         }
 

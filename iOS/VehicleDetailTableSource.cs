@@ -40,6 +40,21 @@ namespace OnDuty.iOS
                 "ALS"
             };
 
+            Dictionary<DutyStatus, string> Statuses = new Dictionary<DutyStatus, string>();
+            Statuses.Add(DutyStatus.OFF_DUTY, "Off Duty");
+            Statuses.Add(DutyStatus.ON_DUTY, "On Duty");
+            Statuses.Add(DutyStatus.OOS, "Out of Service");
+            List<string> StatusValues = new List<string>(Statuses.Values);
+
+			PickerViewCell StatusCell = VehicleDetailPickerCell.Create(StatusValues);
+			StatusCell.TextLabel.Text = "Status";
+			StatusCell.RightLabelTextAlignment = UITextAlignment.Right;
+			StatusCell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+            StatusCell.SelectedObject = new object[] { StatusValues.IndexOf(Statuses[CurrentApparatus.Status.DutyStatus]) };
+			StatusCell.OnItemChanged += (object sender, PickerCellArgs e) =>
+			{
+				Parent.UpdateStatus((string) e.Items[0]);
+			};
 
             PickerViewCell PersonnelCell = VehicleDetailPickerCell.Create(CurrentApparatus.Seats);
             PersonnelCell.TextLabel.Text = "Personnel Count";
@@ -62,7 +77,15 @@ namespace OnDuty.iOS
 				
 			};
 
-            DatePickerCell OnDutyTimeCell = new DatePickerCell(UIDatePickerMode.DateAndTime, CurrentApparatus.Status.OnDutyTime);
+            DateTime defaultOnDutyTime;
+            if (CurrentApparatus.Status.DutyStatus == DutyStatus.ON_DUTY) {
+                defaultOnDutyTime = CurrentApparatus.Status.OnDutyTime;
+            }
+            else {
+                defaultOnDutyTime = DateTime.Now;
+            }
+
+            DatePickerCell OnDutyTimeCell = new DatePickerCell(UIDatePickerMode.DateAndTime, defaultOnDutyTime);
             OnDutyTimeCell.TextLabel.Text = "On Duty Time";
 			OnDutyTimeCell.RightLabelTextAlignment = UITextAlignment.Right;
 			OnDutyTimeCell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
@@ -73,7 +96,16 @@ namespace OnDuty.iOS
 			};
 
 
-            DatePickerCell OffDutyTimeCell = new DatePickerCell(UIDatePickerMode.DateAndTime, CurrentApparatus.Status.OffDutyTime);
+			DateTime defaultOffDutyTime;
+			if (CurrentApparatus.Status.DutyStatus == DutyStatus.ON_DUTY)
+			{
+                defaultOffDutyTime = CurrentApparatus.Status.OffDutyTime;
+			}
+			else
+			{
+                defaultOffDutyTime = DateTime.Now.AddHours(8);
+			}
+            DatePickerCell OffDutyTimeCell = new DatePickerCell(UIDatePickerMode.DateAndTime, defaultOffDutyTime);
 			OffDutyTimeCell.TextLabel.Text = "Off Duty Time";
 			OffDutyTimeCell.RightLabelTextAlignment = UITextAlignment.Right;
 			OffDutyTimeCell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
@@ -83,9 +115,11 @@ namespace OnDuty.iOS
 
 			};
 
+
+
             Parent.UpdatePost("Test Post, Please Ignore");
 
-
+            DetailItems.Add(StatusCell);
 			DetailItems.Add(PersonnelCell);
             DetailItems.Add(MedicalLevelCell);
             DetailItems.Add(OnDutyTimeCell);
