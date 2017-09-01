@@ -18,6 +18,7 @@ namespace OnDuty.iOS
         UITableViewController parent;
 
 
+
 		public VehiclesListTableSource(UITableViewController parent, List<Apparatus> vehiclesList)
         {
             TableItems = vehiclesList;

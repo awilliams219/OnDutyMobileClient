@@ -83,6 +83,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="PickerCells">
+      <HintPath>..\Components\pickercells-1.1\lib\ios-unified\PickerCells.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -105,6 +108,10 @@
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="WTF\UIVehiclesList.cs" />
+    <None Include="WTF\VehicleDetailControllerStatic.cs" />
+    <None Include="WTF\VehicleDetailControllerStatic.designer.cs">
+      <DependentUpon>VehicleDetailControllerStatic.cs</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -155,10 +162,6 @@
       <DependentUpon>UiVehiclesLoader.cs</DependentUpon>
     </Compile>
     <Compile Include="LoadingOverlay.cs" />
-    <Compile Include="VehicleDetailController.cs" />
-    <Compile Include="VehicleDetailController.designer.cs">
-      <DependentUpon>VehicleDetailController.cs</DependentUpon>
-    </Compile>
     <Compile Include="VehicleDutyStatusControl.cs" />
     <Compile Include="VehicleDutyStatusControl.designer.cs">
       <DependentUpon>VehicleDutyStatusControl.cs</DependentUpon>
@@ -172,6 +175,15 @@
       <DependentUpon>TimeTravelSlider.cs</DependentUpon>
     </Compile>
     <Compile Include="VehicleDetailPickerModel.cs" />
+    <Compile Include="VehicleDetailPickerCell.cs" />
+    <Compile Include="VehicleDetailPickerCell.designer.cs">
+      <DependentUpon>VehicleDetailPickerCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VehicleDetailTableSource.cs" />
+    <Compile Include="VehicleDetailController.cs" />
+    <Compile Include="VehicleDetailController.designer.cs">
+      <DependentUpon>VehicleDetailController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\Designs\Assets\SplashScreen.png">
@@ -219,6 +231,12 @@
       <Project>{5DAE542E-5979-4AB1-9CD2-BF11427E1DFE}</Project>
       <Name>OnDuty.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="pickercells">
+      <Version>1.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

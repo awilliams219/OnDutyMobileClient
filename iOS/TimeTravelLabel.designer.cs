@@ -14,5 +14,8 @@ namespace OnDuty.iOS
     [Register ("TimeTravelLabel")]
     partial class TimeTravelLabel
     {
+        void ReleaseDesignerOutlets ()
+        {
+        }
     }
 }

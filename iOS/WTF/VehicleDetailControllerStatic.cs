@@ -9,7 +9,7 @@ using static OnDuty.iOS.VehicleDetailPickerModel;
 
 namespace OnDuty.iOS
 {
-    public partial class VehicleDetailController : UITableViewController
+    public partial class VehicleDetailControllerStatic: UITableViewController
     {
         UIColor ActiveBlue = UIColor.FromRGB(29, 118, 252);
         UIColor OOSColor = UIColor.FromRGB(237, 61, 56);
@@ -110,6 +110,7 @@ namespace OnDuty.iOS
             OnDutyTime.Text = currentVehicle.Status.OnDutyTime.ToString("ddd, MM/dd HH:mm");
             OffDutyTime.Text = currentVehicle.Status.OffDutyTime.ToString("ddd, MM/dd HH:mm");
             StatusDetail.Text = currentVehicle.Status.ToString(false);
+            VDPersonnelCell.MaxPersonnel = currentVehicle.Seats;
 
             Post.Text = currentVehicle.Status.Post;
 
@@ -145,9 +146,7 @@ namespace OnDuty.iOS
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath) {
             switch (indexPath.Row) {
-                case 0:
-                    updatePersonnelCount();
-                    break;
+               
                 case 1:
                     updateMedicalLevel();
                     break;
@@ -155,7 +154,6 @@ namespace OnDuty.iOS
         }
 
         private void updatePersonnelCount() {
-            BuildPicker(handlePersonnelUpdate, currentVehicle.Seats);
         }
 
 		private void updateMedicalLevel()

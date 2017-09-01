@@ -37,12 +37,20 @@
     <Compile Include="API\Interface\ApiInterface.cs" />
     <Compile Include="API\Interface\ApparatusApiInterface.cs" />
     <Compile Include="Helper\ConversionHelper.cs" />
+    <Compile Include="Manager\ApparatusStatusManager.cs" />
+    <Compile Include="Manager\SettingsManager.cs" />
+    <Compile Include="Event\Bus\EventBus.cs" />
+    <Compile Include="Model\Entity\NullApparatus.cs" />
+    <Compile Include="Model\Abstract\NullApparatusStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="API\" />
     <Folder Include="Model\" />
     <Folder Include="API\Interface\" />
     <Folder Include="Helper\" />
+    <Folder Include="Manager\" />
+    <Folder Include="Event\" />
+    <Folder Include="Event\Bus\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

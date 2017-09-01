@@ -8,7 +8,7 @@ public class LoadingOverlay : UIView
 	UIActivityIndicatorView activitySpinner;
 	UILabel loadingLabel;
 
-	public LoadingOverlay(CGRect frame) : base(frame)
+	public LoadingOverlay(CGRect frame, string Text = "Loading Data...") : base(frame)
 	{
 		// configurable bits
 		BackgroundColor = UIColor.Black;
@@ -42,7 +42,7 @@ public class LoadingOverlay : UIView
 			));
 		loadingLabel.BackgroundColor = UIColor.Clear;
 		loadingLabel.TextColor = UIColor.White;
-		loadingLabel.Text = "Loading Data...";
+		loadingLabel.Text = Text;
 		loadingLabel.TextAlignment = UITextAlignment.Center;
 		loadingLabel.AutoresizingMask = UIViewAutoresizing.All;
 		AddSubview(loadingLabel);

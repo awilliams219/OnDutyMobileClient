@@ -13,6 +13,8 @@ using OnDuty.Core.Model.Abstract;
 using ApparatusModel = OnDuty.Core.Model.Entity.Apparatus;
 using OnDuty.Core.Helper;
 using System.Globalization;
+using OnDuty.Core.Event.Bus;
+using OnDuty.Core.Model.Entity;
 
 namespace OnDuty.Core.API
 {
@@ -29,34 +31,51 @@ namespace OnDuty.Core.API
         /** Get All as a List **/
         public async Task<List<ApparatusModel>> All()
         {
-            var result = await Server.GetAsync(ApiPath);
-            string jsonResult = await result.Content.ReadAsStringAsync();
-            return GetApparatusListFromJson(jsonResult);
+            try
+            {
+                var result = await Server.GetAsync(ApiPath);
+                string jsonResult = await result.Content.ReadAsStringAsync();
+                return GetApparatusListFromJson(jsonResult);
+            }
+            catch {
+                return new List<ApparatusModel>();
+            }
         }
 
         /** Get one as an Apparatus object **/
         public async Task<ApparatusModel> Read(int id)
         {
-            var result = await Server.GetAsync(ApiPath + id.ToString());
-            string jsonResult = await result.Content.ReadAsStringAsync();
-            return ConvertJsonToApparatus(jsonResult);
+            try
+            {
+                var result = await Server.GetAsync(ApiPath + id.ToString());
+	            string jsonResult = await result.Content.ReadAsStringAsync();
+	            return ConvertJsonToApparatus(jsonResult);
+			}
+			catch
+			{
+                return new NullApparatus();
+			}
         }
 
         /** Update status of indicated apparatus **/
         public async Task<HttpResult> UpdateStatus(int id, ApparatusStatus newStatus)
         {
+            EventBus.Dispatch("api.update.vehicle.status.before");
+
             var encodedStatus = new FormUrlEncodedContent(new[] {
                 new KeyValuePair<string, string>("personnel", newStatus.PersonnelCount.ToString()),
                 new KeyValuePair<string, string>("level", newStatus.MedicalLevel),
                 new KeyValuePair<string, string>("post", newStatus.Post),
-                new KeyValuePair<string, string>("offduty", newStatus.OffDutyTime.ToString()),
-                new KeyValuePair<string, string>("onduty", newStatus.OnDutyTime.ToString()),
+                new KeyValuePair<string, string>("offduty", newStatus.OffDutyTime.ToString("yyyy-MM-ddTHH\\:mm\\:sszzz")),
+                new KeyValuePair<string, string>("onduty", newStatus.OnDutyTime.ToString("yyyy-MM-ddTHH\\:mm\\:sszzz")),
                 new KeyValuePair<string, string>("status", newStatus.DutyStatus == DutyStatus.ON_DUTY ? "onduty" : "offduty")
             });
 
-            var result = await Server.PostAsync(ApiPath + "/status/" + id.ToString(), encodedStatus);
+            var result = await Server.PostAsync(ApiPath + "status/" + id.ToString(), encodedStatus);
             var HttpResponseMessage = await result.Content.ReadAsStringAsync();
             var rObject = JObject.Parse(HttpResponseMessage);
+
+            EventBus.Dispatch("api.update.vehicle.status.after");
             return rObject["status"].Value<string>() == "ok" ? HttpResult.SUCCESS : HttpResult.FAIL;
         }
 
@@ -79,6 +98,7 @@ namespace OnDuty.Core.API
             apparatus.Seats = payload["seats"].ToObject<int>();
             apparatus.Vin = payload["vin"].ToString();
             apparatus.Type = payload["type"].ToString();
+            apparatus.Id = payload["id"].ToObject<int>();
             apparatus.Status = ProcessStatus(payload["status"]);
 
             return apparatus;
@@ -113,7 +133,7 @@ namespace OnDuty.Core.API
         {
             List<ApparatusModel> ResultList = new List<ApparatusModel>();
 
-            var result = JObject.Parse(Json);
+            var result = Parse(Json);
             var Payload = result.GetValue("payload");
 
 
@@ -123,6 +143,7 @@ namespace OnDuty.Core.API
                 apparatus.Type = entry["type"].ToString();
                 apparatus.Seats = entry["seats"].ToObject<int>();
                 apparatus.Vin = entry["vin"].ToString();
+                apparatus.Id = entry["id"].ToObject<int>();
                 string JsonStatus = entry["status"].ToString();
                 apparatus.Status = GetStatusObject(JsonStatus);
                 ResultList.Add(apparatus);
@@ -132,18 +153,20 @@ namespace OnDuty.Core.API
         }
 
         private ApparatusStatus GetStatusObject(string JsonStatus) {
-            var StatusToken = JObject.Parse(JsonStatus);
+            var StatusToken = Parse(JsonStatus);
 
             ApparatusStatus status = new ApparatusStatus();
             status.PersonnelCount = StatusToken["personnelCount"].ToObject<int>();
             status.DutyStatus = ConversionHelper.StringToDutyStatus(StatusToken["dutyStatus"].ToString());
             status.MedicalLevel = StatusToken["medicalLevel"].ToString();
-			status.OnDutyTime = DateTime.Parse(StatusToken["onDutyTime"].ToString(), CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
-            status.OffDutyTime = DateTime.Parse(StatusToken["offDutyTime"].ToString(), CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
+			status.OnDutyTime = DateTime.Parse(StatusToken["onDutyTime"].ToString(), CultureInfo.CurrentCulture, DateTimeStyles.None);
+            status.OffDutyTime = DateTime.Parse(StatusToken["offDutyTime"].ToString(), CultureInfo.CurrentCulture, DateTimeStyles.None);
             status.Post = StatusToken["post"].ToString();
             status.OOSReason = StatusToken["oosReason"].ToString();
             return status;
         }
+
+
 
 
 

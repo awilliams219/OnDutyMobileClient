@@ -11,8 +11,8 @@ using UIKit;
 
 namespace OnDuty.iOS
 {
-    [Register ("TimeTravelSlider")]
-    partial class TimeTravelSlider
+    [Register("PersonnelCell")]
+    partial class VehicleDetailPickerCell
     {
         void ReleaseDesignerOutlets ()
         {

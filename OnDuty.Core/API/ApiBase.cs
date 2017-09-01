@@ -4,7 +4,10 @@
 // Written by Adam Williams <adam.williams@rescuecoder.com>, 6/2017
 //
 using System;
+using System.IO;
 using System.Net.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace OnDuty.Core.API
 {
@@ -25,6 +28,11 @@ namespace OnDuty.Core.API
             }
         }
 
+        protected JObject Parse (string JSON) {
+            JsonReader reader = new JsonTextReader(new StringReader(JSON));
+            reader.DateParseHandling = DateParseHandling.None;
+            return JObject.Load(reader);
+        }
 
 
 
